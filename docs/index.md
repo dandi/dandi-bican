@@ -4,18 +4,19 @@ hide:
   - toc
 ---
 
-<div class="bd-header" markdown>
+# BICAN dandisets { .bd-visually-hidden }
 
-# BICAN dandisets
+<div class="bd-hero" markdown>
 
 <div class="bd-logos">
   <a href="https://dandiarchive.org/" title="DANDI Archive"><img class="bd-logo bd-logo--dandi" src="images/dandi-logo.svg" alt="DANDI Archive"></a>
+  <span class="bd-logos__divider" aria-hidden="true"></span>
   <a href="https://brain-bican.org/" title="BRAIN Initiative Cell Atlas Network"><img class="bd-logo bd-logo--bican" src="images/bican-logo.svg" alt="BICAN"></a>
 </div>
 
-</div>
+Data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https://brain-bican.org/), shared on the [DANDI Archive](https://dandiarchive.org/).<br>Missing one? [Add it to the list](https://github.com/kabilar/dandi-bican/edit/main/dandisets.yaml).
 
-Data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https://brain-bican.org/), shared on the [DANDI Archive](https://dandiarchive.org/). Missing one? [Add it to the list](https://github.com/kabilar/dandi-bican/edit/main/dandisets.yaml).
+</div>
 
 <div id="bican-dashboard">
   <p class="bd-loading">Loading dandisets…</p>

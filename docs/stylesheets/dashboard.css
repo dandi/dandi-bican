@@ -12,26 +12,31 @@
   border-radius: 0.3rem;
 }
 
-/* Page title with the DANDI and BICAN logos on the right */
-.md-typeset .bd-header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem 1.5rem;
-  margin-bottom: 1.25rem;
-}
-
-.md-typeset .bd-header h1 {
-  margin: 0;
+/* Centered DANDI and BICAN logos with the intro line beneath */
+.md-typeset .bd-hero {
+  margin: 0 0 2.25rem;
+  text-align: center;
 }
 
 .bd-logos {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 1.1rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: 0.6rem;
+  gap: 1.75rem;
+  padding: 0.6rem 1.5rem;
+  border-radius: 0.9rem;
+}
+
+.bd-logos__divider {
+  width: 1px;
+  height: 2.75rem;
+  background: var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .bd-hero p {
+  max-width: 36rem;
+  margin: 1.1rem auto 0;
+  color: var(--md-default-fg-color--light);
+  text-wrap: balance;
 }
 
 .md-typeset .bd-logos a {
@@ -45,16 +50,20 @@
 }
 
 .md-typeset img.bd-logo--dandi {
-  height: 3rem;
+  height: 4rem;
 }
 
 .md-typeset img.bd-logo--bican {
-  height: 1.9rem;
+  height: 2.5rem;
 }
 
 /* The logos are dark navy, so give them a light backing in dark mode */
 [data-md-color-scheme="slate"] .bd-logos {
   background: #fff;
+}
+
+[data-md-color-scheme="slate"] .bd-logos__divider {
+  background: rgb(0 0 0 / 12%);
 }
 
 .md-typeset #bican-dashboard {
@@ -379,11 +388,20 @@
 
 @media (max-width: 44.9375em) {
   .md-typeset img.bd-logo--dandi {
-    height: 2.2rem;
+    height: 3rem;
   }
 
   .md-typeset img.bd-logo--bican {
-    height: 1.4rem;
+    height: 1.9rem;
+  }
+
+  .bd-logos {
+    gap: 1.25rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .bd-logos__divider {
+    height: 2rem;
   }
 
   .bd-stats {
