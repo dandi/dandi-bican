@@ -22,13 +22,9 @@ The dashboard lists the dandisets in [`dandisets.yaml`](https://github.com/kabil
 
 A check runs on the pull request. It fails if the ID is mistyped, already listed, or not public on DANDI, and tells you which. Once the pull request is merged, the site updates within a few minutes.
 
-## Or suggest one
-
-If you'd rather not edit the file, [open a suggestion](https://github.com/kabilar/dandi-bican/issues/new?template=add-dandiset.yml) with the dandiset ID, and a maintainer will add it.
-
 ## What belongs here
 
-Dandisets from BICAN work: data produced under a BICAN grant, or the data behind a BICAN paper. If you're not sure, open a suggestion and ask.
+Dandisets from BICAN work: data produced under a BICAN grant, or the data behind a BICAN paper. If you're not sure, ask in your pull request.
 
 ## Edit or add a page
 

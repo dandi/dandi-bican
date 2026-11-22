@@ -12,7 +12,7 @@ Add its ID to [`dandisets.yaml`](dandisets.yaml) and open a pull request:
 - id: "000636"
 ```
 
-That's all. The title, species, size, contributors and links come from DANDI. The pull request check fails if the ID is mistyped, already listed, or not public on DANDI. You can also [suggest a dandiset](https://github.com/kabilar/dandi-bican/issues/new?template=add-dandiset.yml) instead. More detail is on the site's [Add a dandiset](docs/contributing.md) page.
+That's all. The title, species, size, contributors and links come from DANDI. The pull request check fails if the ID is mistyped, already listed, or not public on DANDI. More detail is on the site's [Add a dandiset](docs/contributing.md) page.
 
 ## How it works
 
