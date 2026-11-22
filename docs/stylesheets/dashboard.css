@@ -5,11 +5,15 @@
   height: 1.9rem;
 }
 
-/* The logo's hat and wordmark are dark, so give it a light backing in dark mode */
+/* In dark mode, swap in the version of the logo drawn for dark backgrounds.
+   The theme takes a single logo image, so the swap is done here. */
+[data-md-color-scheme="slate"] .md-logo {
+  background: url("../images/dandi-logo-dark.svg") center / contain no-repeat;
+  background-origin: content-box;
+}
+
 [data-md-color-scheme="slate"] .md-logo img {
-  padding: 0.1rem;
-  background: #fff;
-  border-radius: 0.3rem;
+  visibility: hidden;
 }
 
 /* Centered DANDI and BICAN logos with the intro line beneath */
@@ -23,7 +27,6 @@
   align-items: center;
   gap: 1.75rem;
   padding: 0.6rem 1.5rem;
-  border-radius: 0.9rem;
 }
 
 .md-typeset .bd-logos a {
@@ -48,15 +51,6 @@
   width: 1px;
   height: 2.75rem;
   background: var(--md-default-fg-color--lightest);
-}
-
-/* The logos are dark navy, so give them a light backing in dark mode */
-[data-md-color-scheme="slate"] .bd-logos {
-  background: #fff;
-}
-
-[data-md-color-scheme="slate"] .bd-logos__divider {
-  background: rgb(0 0 0 / 12%);
 }
 
 .md-typeset .bd-hero p {
