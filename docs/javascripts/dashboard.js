@@ -121,7 +121,6 @@
       q: params.get("q") || "",
       species: params.get("species") || "",
       type: params.get("type") || "",
-      status: params.get("status") || "",
       sort: SORTS[params.get("sort")] ? params.get("sort") : "newest",
     };
 
@@ -136,8 +135,6 @@
           <select data-key="species">${options(tally(all, speciesOf), "All species", state.species)}</select></label>
         <label><span class="bd-visually-hidden">Data type</span>
           <select data-key="type">${options(tally(all, typesOf), "All data types", state.type)}</select></label>
-        <label><span class="bd-visually-hidden">Status</span>
-          <select data-key="status">${options(tally(all, (d) => [d.status === "published" ? "Published" : "Draft"]), "Any status", state.status)}</select></label>
         <label><span class="bd-visually-hidden">Sort by</span>
           <select data-key="sort">${Object.entries(SORTS)
             .map(([k, s]) => `<option value="${k}"${k === state.sort ? " selected" : ""}>Sort: ${s.label}</option>`)
@@ -157,7 +154,6 @@
       const shown = all
         .filter((d) => !state.species || speciesOf(d).includes(state.species))
         .filter((d) => !state.type || typesOf(d).includes(state.type))
-        .filter((d) => !state.status || (state.status === "Published") === (d.status === "published"))
         .filter((d) => {
           if (!q) return true;
           const hay = [d.id, d.title, d.description, d.note, ...d.contacts, ...d.organizations, ...d.keywords, ...speciesOf(d), ...d.species.map((s) => s.scientific)]
@@ -167,7 +163,7 @@
         })
         .sort(SORTS[state.sort].fn);
 
-      const filtered = state.q || state.species || state.type || state.status;
+      const filtered = state.q || state.species || state.type;
       summary.innerHTML =
         `Showing <strong>${shown.length}</strong> of ${all.length} dandisets` +
         (filtered ? ` <button type="button" class="bd-clear">Clear filters</button>` : "");
@@ -189,7 +185,7 @@
     });
     summary.addEventListener("click", (e) => {
       if (!e.target.closest(".bd-clear")) return;
-      Object.assign(state, { q: "", species: "", type: "", status: "" });
+      Object.assign(state, { q: "", species: "", type: "" });
       root.querySelectorAll("[data-key]").forEach((el) => {
         if (el.dataset.key !== "sort") el.value = "";
       });
