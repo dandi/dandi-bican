@@ -16,6 +16,8 @@ nav = [
 
 [project.theme]
 language = "en"
+logo = "images/dandi-logo.svg"
+favicon = "images/dandi-logo.svg"
 features = [
   "content.action.edit",
   "content.code.copy",
@@ -24,9 +26,6 @@ features = [
   "navigation.top",
   "search.highlight",
 ]
-
-[project.theme.icon]
-logo = "lucide/brain"
 
 [[project.theme.palette]]
 media = "(prefers-color-scheme)"

@@ -1,5 +1,17 @@
 /* BICAN dashboard. Colors come from the theme, so light and dark mode both work. */
 
+/* DANDI logo in the navigation bar: taller than the theme's icon size, since it includes the wordmark */
+.md-header__button.md-logo img {
+  height: 1.9rem;
+}
+
+/* The logo's hat and wordmark are dark, so give it a light backing in dark mode */
+[data-md-color-scheme="slate"] .md-logo img {
+  padding: 0.1rem;
+  background: #fff;
+  border-radius: 0.3rem;
+}
+
 /* Page title with the DANDI and BICAN logos on the right */
 .md-typeset .bd-header {
   display: flex;
