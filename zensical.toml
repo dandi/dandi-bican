@@ -8,7 +8,17 @@ repo_name = "kabilar/dandi-bican"
 extra_css = ["stylesheets/dashboard.css"]
 extra_javascript = ["javascripts/dashboard.js"]
 
-# To add a page: create a Markdown file in docs/ and list it here.
+# The site's files live at the repository root; keep the repository's own files off the site.
+docs_dir = "."
+exclude_docs = """
+README.md
+dandisets.yaml
+requirements.txt
+scripts/
+zensical.toml
+"""
+
+# To add a page: create a Markdown file at the repository root and list it here.
 nav = [
   { "Dashboard" = "index.md" },
 ]

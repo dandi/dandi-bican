@@ -1,7 +1,7 @@
 """Build the dashboard data from dandisets.yaml.
 
 Reads the dandiset IDs listed in dandisets.yaml, looks each one up on the
-DANDI Archive, and writes docs/data/dandisets.json for the dashboard page.
+DANDI Archive, and writes data/dandisets.json for the dashboard page.
 
     python scripts/fetch_dandisets.py
 
@@ -22,7 +22,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 LIST_FILE = ROOT / "dandisets.yaml"
-OUT_FILE = ROOT / "docs" / "data" / "dandisets.json"
+OUT_FILE = ROOT / "data" / "dandisets.json"
 API = "https://api.dandiarchive.org/api"
 
 # Common names for species, keyed by NCBI taxonomy ID.
