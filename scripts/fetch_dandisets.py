@@ -9,8 +9,6 @@ Exits with an error if an entry is malformed, listed twice, or not found
 on DANDI, so a typo in a pull request fails the check instead of the site.
 """
 
-from __future__ import annotations
-
 import json
 import re
 import sys
@@ -26,7 +24,6 @@ ROOT = Path(__file__).resolve().parent.parent
 LIST_FILE = ROOT / "dandisets.yaml"
 OUT_FILE = ROOT / "docs" / "data" / "dandisets.json"
 API = "https://api.dandiarchive.org/api"
-GUI = "https://dandiarchive.org/dandiset"
 
 # Common names for species, keyed by NCBI taxonomy ID.
 SPECIES = {
@@ -53,121 +50,84 @@ APPROACHES = {
     "spatial transcriptomics approach": "Spatial transcriptomics",
 }
 
-DATA_STANDARDS = {
-    "Neurodata Without Borders (NWB)": "NWB",
-    "Brain Imaging Data Structure (BIDS)": "BIDS",
-    "OME/NGFF Standard": "OME-Zarr",
-}
+# For drafts that DANDI hasn't summarized yet: guess species and data type from keywords.
+KEYWORD_SPECIES = {"mouse": "Mouse", "human": "Human", "rat": "Rat", "macaque": "Macaque", "marmoset": "Marmoset"}
+KEYWORD_APPROACHES = {"calcium imaging": "Imaging", "two-photon": "Imaging", "2-photon": "Imaging",
+                      "patch-seq": "Electrophysiology", "neuropixels": "Electrophysiology"}
 
 PAPER_RELATIONS = {"dcite:IsDescribedBy", "dcite:IsPublishedIn", "dcite:IsSupplementTo"}
 PAPER_TYPES = {"dcite:JournalArticle", "dcite:Preprint", "dcite:DataPaper"}
 
 
-def get_json(url: str) -> dict:
-    """GET a DANDI API URL, retrying on network errors and server errors."""
+def get_json(url):
+    """GET a DANDI API URL, retrying network and server errors."""
     for attempt in range(4):
         try:
-            req = urllib.request.Request(url, headers={"Accept": "application/json"})
-            with urllib.request.urlopen(req, timeout=60) as resp:
+            with urllib.request.urlopen(url, timeout=60) as resp:
                 return json.load(resp)
-        except urllib.error.HTTPError as err:
-            if err.code < 500 or attempt == 3:
+        except urllib.error.URLError as err:
+            # Retrying won't fix a client error such as 404 (HTTPError has a code; URLError doesn't).
+            if attempt == 3 or getattr(err, "code", 500) < 500:
                 raise
-        except urllib.error.URLError:
-            if attempt == 3:
-                raise
-        time.sleep(2 ** attempt)
-    raise RuntimeError("unreachable")
+            time.sleep(2 ** attempt)
 
 
-def read_list() -> list[dict]:
-    """Read and validate dandisets.yaml. Returns entries as dicts with 'id'."""
+def read_list():
+    """Read and check dandisets.yaml. Returns its entries, each with a six-digit 'id'."""
     raw = yaml.safe_load(LIST_FILE.read_text()) or []
     if isinstance(raw, dict):  # also accept a top-level "dandisets:" key
         raw = raw.get("dandisets") or []
-    errors, entries, seen = [], [], set()
+    entries, errors, seen = [], [], set()
     for n, item in enumerate(raw, 1):
-        entry = {"id": item} if isinstance(item, (str, int)) else dict(item or {})
+        entry = dict(item) if isinstance(item, dict) else {"id": item}
         did = str(entry.get("id", "")).strip()
-        if did.isdigit() and len(did) < 6:
-            did = did.zfill(6)  # YAML read an unquoted ID as a number
+        if did.isdigit():
+            did = did.zfill(6)  # YAML reads an unquoted ID as a number, dropping leading zeros
         if not re.fullmatch(r"\d{6}", did):
             errors.append(f"entry {n}: '{entry.get('id')}' is not a six-digit dandiset ID")
-            continue
-        if did in seen:
+        elif did in seen:
             errors.append(f"entry {n}: {did} is listed more than once")
-            continue
-        seen.add(did)
-        entry["id"] = did
-        entries.append(entry)
+        else:
+            seen.add(did)
+            entries.append({**entry, "id": did})
     if errors:
         sys.exit("dandisets.yaml has problems:\n  " + "\n  ".join(errors))
     return entries
 
 
-def person_name(name: str) -> str:
-    """'Lee, Brian' -> 'Brian Lee'."""
-    if "," in name:
-        last, first = (p.strip() for p in name.split(",", 1))
-        return f"{first} {last}".strip()
-    return name.strip()
+def unique(items):
+    """Drop empty and repeated items, keeping the first of each."""
+    return [x for x in dict.fromkeys(items) if x]
 
 
-def species_list(summary: dict) -> list[dict]:
-    out, seen = [], set()
+def from_keywords(keywords, table):
+    return unique(label for kw in keywords for term, label in table.items()
+                  if re.search(rf"\b{re.escape(term)}\b", kw.lower()))
+
+
+def species_list(summary):
+    found = {}
     for sp in summary.get("species") or []:
         taxon = (sp.get("identifier") or "").rsplit("_", 1)[-1].rsplit("/", 1)[-1]
-        full = sp.get("name") or ""
-        scientific = full.split(" - ")[0].strip()
-        common = SPECIES.get(taxon) or (full.split(" - ")[-1].strip() if " - " in full else full)
-        key = taxon or common.lower()
-        if key in seen:
-            continue
-        seen.add(key)
-        out.append({"name": common, "scientific": scientific if scientific != common else ""})
-    return out
+        parts = (sp.get("name") or "").split(" - ")  # e.g. "Homo sapiens - Human"
+        scientific, common = parts[0].strip(), SPECIES.get(taxon) or parts[-1].strip()
+        found.setdefault(taxon or common.lower(), {"name": common, "scientific": scientific if scientific != common else ""})
+    return list(found.values())
 
 
-def approach_list(summary: dict) -> list[str]:
-    out = []
-    for ap in summary.get("approach") or []:
-        name = (ap.get("name") or "").strip()
-        label = APPROACHES.get(name) or name.removesuffix(" approach").capitalize()
-        if label and label not in out:
-            out.append(label)
-    return out
-
-
-KEYWORD_SPECIES = {"mouse": "Mouse", "human": "Human", "rat": "Rat", "macaque": "Macaque", "marmoset": "Marmoset"}
-KEYWORD_APPROACHES = {"calcium imaging": "Imaging", "two-photon": "Imaging", "2-photon": "Imaging",
-                      "patch-seq": "Electrophysiology", "neuropixels": "Electrophysiology"}
-
-
-def from_keywords(keywords: list[str], table: dict) -> list[str]:
-    """Fallback for drafts whose files DANDI hasn't summarized yet."""
-    out = []
-    for kw in keywords:
-        for term, label in table.items():
-            if re.search(rf"\b{re.escape(term)}\b", kw.lower()) and label not in out:
-                out.append(label)
-    return out
-
-
-def paper_links(meta: dict) -> list[dict]:
-    out = []
+def paper_links(meta):
+    links = []
     for res in meta.get("relatedResource") or []:
-        url = res.get("url") or ""
-        if not url and (res.get("identifier") or "").lower().startswith("doi:"):
-            url = "https://doi.org/" + res["identifier"][4:]
-        if not url.startswith(("http://", "https://")):
-            continue
-        if res.get("relation") in PAPER_RELATIONS and res.get("resourceType") in PAPER_TYPES:
-            kind = "Preprint" if res.get("resourceType") == "dcite:Preprint" else "Paper"
-            out.append({"label": kind, "url": url})
-    return out
+        url, ident = res.get("url") or "", res.get("identifier") or ""
+        if not url and ident.lower().startswith("doi:"):
+            url = "https://doi.org/" + ident[4:]
+        if url.startswith(("http://", "https://")) and res.get("relation") in PAPER_RELATIONS \
+                and res.get("resourceType") in PAPER_TYPES:
+            links.append({"label": "Preprint" if res["resourceType"] == "dcite:Preprint" else "Paper", "url": url})
+    return links
 
 
-def build_record(entry: dict) -> dict:
+def build_record(entry):
     did = entry["id"]
     try:
         info = get_json(f"{API}/dandisets/{did}/")
@@ -177,59 +137,52 @@ def build_record(entry: dict) -> dict:
         if err.code in (401, 403):
             raise LookupError(f"{did} is embargoed or private on DANDI, so it can't be shown yet.")
         raise
-    version = info.get("most_recent_published_version") or info["draft_version"]
-    meta = get_json(f"{API}/dandisets/{did}/versions/{version['version']}/")
+    version = (info.get("most_recent_published_version") or info["draft_version"])["version"]
+    meta = get_json(f"{API}/dandisets/{did}/versions/{version}/")
     summary = meta.get("assetsSummary") or {}
-    contributors = meta.get("contributor") or []
-
-    def roles(c):
-        return {r.removeprefix("dcite:") for r in c.get("roleName") or []}
-
-    people = [c for c in contributors if c.get("schemaKey") == "Person"]
-    contacts = [person_name(c["name"]) for c in people if "ContactPerson" in roles(c)]
-    orgs = [
-        c["name"] for c in contributors
-        if c.get("schemaKey") == "Organization" and "Funder" not in roles(c) and c.get("name")
-    ]
-    published = version["version"] != "draft"
+    keywords = meta.get("keywords") or []
+    contacts, orgs = [], []
+    for c in meta.get("contributor") or []:
+        roles = c.get("roleName") or []
+        if c.get("schemaKey") == "Person" and "dcite:ContactPerson" in roles:
+            last, _, first = c["name"].partition(",")  # "Lee, Brian" -> "Brian Lee"
+            contacts.append(f"{first.strip()} {last.strip()}".strip())
+        elif c.get("schemaKey") == "Organization" and "dcite:Funder" not in roles and c.get("name"):
+            orgs.append(c["name"])
+    published = version != "draft"
     doi = meta.get("doi") if published else None
+    approaches = unique(APPROACHES.get(name) or name.removesuffix(" approach").capitalize()
+                        for name in ((ap.get("name") or "").strip() for ap in summary.get("approach") or []))
     record = {
         "id": did,
-        "title": meta.get("name") or info.get("draft_version", {}).get("name") or did,
+        "title": meta.get("name") or did,
         "description": " ".join((meta.get("description") or "").split()),
         "status": "published" if published else "draft",
-        "version": version["version"],
-        "url": f"{GUI}/{did}",
+        "version": version,
+        "url": f"https://dandiarchive.org/dandiset/{did}",
         "doi": doi,
         "doi_url": f"https://doi.org/{doi}" if doi else None,
         "papers": paper_links(meta),
-        "species": species_list(summary),
-        "approaches": approach_list(summary),
-        "standards": [DATA_STANDARDS.get(s.get("name"), s.get("name")) for s in summary.get("dataStandard") or []],
+        "species": species_list(summary)
+        or [{"name": name, "scientific": ""} for name in from_keywords(keywords, KEYWORD_SPECIES)],
+        "approaches": approaches or from_keywords(keywords, KEYWORD_APPROACHES),
         "subjects": summary.get("numberOfSubjects") or 0,
         "files": summary.get("numberOfFiles") or 0,
         "bytes": summary.get("numberOfBytes") or 0,
         "contacts": contacts[:3],
         "organizations": orgs[:2],
-        "keywords": meta.get("keywords") or [],
-        "license": [lic.removeprefix("spdx:") for lic in meta.get("license") or []],
+        "keywords": keywords,
         "created": (info.get("created") or meta.get("dateCreated") or "")[:10],
         "published": (meta.get("datePublished") or "")[:10] or None,
-        "updated": (info.get("modified") or "")[:10],
     }
-    if not record["species"]:
-        record["species"] = [{"name": n, "scientific": ""} for n in from_keywords(record["keywords"], KEYWORD_SPECIES)]
-    if not record["approaches"]:
-        record["approaches"] = from_keywords(record["keywords"], KEYWORD_APPROACHES)
     if entry.get("note"):
         record["note"] = str(entry["note"]).strip()
     return record
 
 
-def main() -> None:
-    entries = read_list()
+def main():
     records, errors = [], []
-    for entry in entries:
+    for entry in read_list():
         try:
             records.append(build_record(entry))
             print(f"  {entry['id']}  ok")
