@@ -6,7 +6,7 @@ hide:
 
 # BICAN dandisets
 
-Data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https://brain-bican.org/), shared on the [DANDI Archive](https://dandiarchive.org/). Missing one? [Add a dandiset](contributing.md).
+Data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https://brain-bican.org/), shared on the [DANDI Archive](https://dandiarchive.org/). Missing one? [Add it to the list](https://github.com/kabilar/dandi-bican/edit/main/dandisets.yaml).
 
 <div id="bican-dashboard" data-src="data/dandisets.json">
   <p class="bd-loading">Loading dandisets…</p>

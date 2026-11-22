@@ -12,7 +12,6 @@ extra_javascript = ["javascripts/dashboard.js"]
 # To add a page: create a Markdown file in docs/ and list it here.
 nav = [
   { "Dashboard" = "index.md" },
-  { "Add a dandiset" = "contributing.md" },
 ]
 
 [project.theme]
@@ -22,7 +21,6 @@ features = [
   "content.code.copy",
   "navigation.footer",
   "navigation.instant",
-  "navigation.tabs",
   "navigation.top",
   "search.highlight",
 ]

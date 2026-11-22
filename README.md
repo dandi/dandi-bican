@@ -4,4 +4,4 @@ A dashboard of data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https
 
 **Site:** https://kabilar.github.io/dandi-bican/
 
-To add a dandiset or change the site, see the [contributing page](docs/contributing.md).
+To add a dandiset, add its ID to [`dandisets.yaml`](dandisets.yaml) and open a pull request.
