@@ -1,4 +1,4 @@
-# Site settings. See https://zensical.org/docs/setup/basics/
+# Site settings. See https://zensical.org/docs/
 [project]
 site_name = "BICAN Dandisets"
 site_description = "Data from the BRAIN Initiative Cell Atlas Network (BICAN) on the DANDI Archive."
@@ -17,12 +17,7 @@ nav = [
 language = "en"
 logo = "images/dandi-logo.svg"
 favicon = "images/dandi-logo.svg"
-features = [
-  "content.code.copy",
-  "navigation.footer",
-  "navigation.instant",
-  "navigation.top",
-]
+features = ["navigation.top"]
 
 [[project.theme.palette]]
 media = "(prefers-color-scheme)"
@@ -47,15 +42,10 @@ accent = "indigo"
 toggle.icon = "lucide/moon"
 toggle.name = "Switch to system preference"
 
+# attr_list hides the page heading; md_in_html allows Markdown inside the logo block.
 [project.markdown_extensions]
-admonition = {}
 attr_list = {}
 md_in_html = {}
-toc.permalink = true
-pymdownx.details = {}
-pymdownx.highlight.anchor_linenums = true
-pymdownx.inlinehilite = {}
-pymdownx.superfences = {}
 
 # No search bar: the dashboard has its own search box.
 [project.plugins.search]

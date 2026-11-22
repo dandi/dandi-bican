@@ -26,19 +26,6 @@
   border-radius: 0.9rem;
 }
 
-.bd-logos__divider {
-  width: 1px;
-  height: 2.75rem;
-  background: var(--md-default-fg-color--lightest);
-}
-
-.md-typeset .bd-hero p {
-  max-width: 36rem;
-  margin: 1.1rem auto 0;
-  color: var(--md-default-fg-color--light);
-  text-wrap: balance;
-}
-
 .md-typeset .bd-logos a {
   display: block;
   line-height: 0;
@@ -57,6 +44,12 @@
   height: 2.5rem;
 }
 
+.bd-logos__divider {
+  width: 1px;
+  height: 2.75rem;
+  background: var(--md-default-fg-color--lightest);
+}
+
 /* The logos are dark navy, so give them a light backing in dark mode */
 [data-md-color-scheme="slate"] .bd-logos {
   background: #fff;
@@ -66,12 +59,18 @@
   background: rgb(0 0 0 / 12%);
 }
 
+.md-typeset .bd-hero p {
+  max-width: 36rem;
+  margin: 1.1rem auto 0;
+  color: var(--md-default-fg-color--light);
+  text-wrap: balance;
+}
+
 .md-typeset #bican-dashboard {
   --bd-border: var(--md-default-fg-color--lightest);
   --bd-surface: var(--md-default-bg-color);
   --bd-subtle: var(--md-code-bg-color);
   --bd-radius: 0.75rem;
-  margin-top: 1.5rem;
 }
 
 .bd-visually-hidden {
@@ -112,7 +111,6 @@
   font-weight: 700;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
-  color: var(--md-default-fg-color);
 }
 
 .bd-stat__unit {
@@ -131,7 +129,6 @@
 }
 
 .bd-controls label {
-  display: block;
   flex: 1 1 8rem;
   min-width: 0;
 }
@@ -263,11 +260,6 @@
   text-decoration: underline;
 }
 
-.md-typeset .bd-btn,
-.md-typeset .bd-btn:hover {
-  text-decoration: none;
-}
-
 .md-typeset .bd-card__note {
   margin: 0;
   font-size: 0.72rem;
@@ -349,12 +341,14 @@
   font-size: 0.68rem;
   font-weight: 600;
   color: var(--md-default-fg-color);
+  text-decoration: none;
   border: 1px solid var(--md-default-fg-color--lighter);
   border-radius: 0.5rem;
 }
 
 .md-typeset .bd-btn:hover {
   color: var(--md-accent-fg-color);
+  text-decoration: none;
   border-color: var(--md-accent-fg-color);
 }
 
