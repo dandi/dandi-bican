@@ -66,7 +66,6 @@
       ...d.species.map((s) => `<span class="bd-chip bd-chip--species"${s.scientific ? ` title="${esc(s.scientific)}"` : ""}>${esc(s.name)}</span>`),
       ...d.approaches.map((a) => `<span class="bd-chip">${esc(a)}</span>`),
     ].join("");
-    const who = [d.contacts.slice(0, 2).join(", "), d.organizations[0]].filter(Boolean).map(esc).join(" · ");
     const count = (n, word) => `<strong>${fmtInt(n)}</strong> ${word}${n === 1 ? "" : "s"}`;
 
     return `
@@ -76,7 +75,6 @@
           ${status}
         </div>
         <h3 class="bd-card__title"><a href="${esc(d.url)}">${esc(d.title).replace(/_/g, "_<wbr>")}</a></h3>
-        ${who ? `<p class="bd-card__byline" title="${who}">${who}</p>` : ""}
         ${d.note ? `<p class="bd-card__note">${esc(d.note)}</p>` : ""}
         ${chips ? `<div class="bd-chips">${chips}</div>` : ""}
         <div class="bd-card__footer">
