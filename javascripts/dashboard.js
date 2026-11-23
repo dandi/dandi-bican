@@ -112,9 +112,9 @@
       <div class="bd-summary" aria-live="polite"></div>
       <div class="bd-grid"></div>`;
 
-    // Show the update date on the right of the footer.
+    // Show the update date on the left of the footer.
     document.querySelector(".md-footer-meta__inner")
-      ?.insertAdjacentHTML("beforeend", `<div class="bd-updated">Last updated ${fmtDate(data.generated)}</div>`);
+      ?.insertAdjacentHTML("afterbegin", `<div class="bd-updated">Last updated ${fmtDate(data.generated)}</div>`);
 
     const grid = root.querySelector(".bd-grid");
     const summary = root.querySelector(".bd-summary");

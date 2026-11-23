@@ -307,8 +307,8 @@
   text-decoration: none;
 }
 
-/* GitHub on the left and the update date on the right, on one row */
-.md-copyright { width: auto; }
+/* Update date on the left and GitHub on the right, on one row */
+.md-copyright { width: auto; margin-left: auto; }
 
 .bd-updated {
   margin: auto 0.6rem;
