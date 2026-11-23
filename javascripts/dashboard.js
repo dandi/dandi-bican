@@ -110,10 +110,7 @@
         ${select("sort", "Sort by", Object.entries(SORTS).map(([key, s]) => [key, `Sort: ${s.label}`]))}
       </div>
       <div class="bd-summary" aria-live="polite"></div>
-      <div class="bd-grid"></div>
-      <p class="bd-footnote">Details from the <a href="https://dandiarchive.org/">DANDI Archive</a>, last updated ${esc(
-        data.generated.replace("T", " at ").replace("Z", " UTC")
-      )}.</p>`;
+      <div class="bd-grid"></div>`;
 
     const grid = root.querySelector(".bd-grid");
     const summary = root.querySelector(".bd-summary");

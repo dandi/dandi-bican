@@ -282,7 +282,7 @@
 
 .bd-btn:hover svg { transform: translateX(2px); }
 
-/* Messages and the "last updated" line */
+/* Loading and "no results" messages */
 .md-typeset .bd-empty,
 .md-typeset .bd-loading {
   grid-column: 1 / -1;
@@ -293,11 +293,8 @@
   border-radius: 0.75rem;
 }
 
-.md-typeset .bd-footnote {
-  margin-top: 1.5rem;
-  font-size: 0.66rem;
-  color: var(--md-default-fg-color--light);
-}
+/* No repository widget in the navigation bar, so drop its empty slot and keep the theme toggle at the right */
+.md-header__source { display: none; }
 
 /* Footer: same background as the page, with a GitHub link */
 .md-footer-meta {

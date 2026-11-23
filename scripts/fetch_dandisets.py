@@ -14,7 +14,6 @@ import sys
 import time
 import urllib.error
 import urllib.request
-from datetime import datetime, timezone
 from pathlib import Path
 
 import yaml
@@ -157,10 +156,7 @@ def main():
     if errors:
         sys.exit("Could not load every dandiset:\n  " + "\n  ".join(errors))
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    OUT_FILE.write_text(json.dumps({
-        "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ"),
-        "dandisets": records,
-    }, indent=1))
+    OUT_FILE.write_text(json.dumps({"dandisets": records}, indent=1))
     print(f"Wrote {len(records)} dandisets to {OUT_FILE.relative_to(ROOT)}")
 
 
