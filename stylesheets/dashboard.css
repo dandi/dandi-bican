@@ -1,70 +1,24 @@
 /* BICAN dashboard. Colors come from the theme, so light and dark mode both work. */
 
-/* DANDI logo in the navigation bar: taller than the theme's icon size, since it includes the wordmark */
+:root {
+  --bd-tile: #e8eaee; /* light backing for the logos in dark mode */
+}
+
+/* Navigation bar logo: taller than the theme's icon size, since it includes the wordmark */
 .md-header__button.md-logo img {
   height: 1.9rem;
 }
 
-/* The logos are navy and black, so in dark mode they sit on soft light tiles */
 [data-md-color-scheme="slate"] .md-logo img {
   padding: 0.15rem;
-  background: #e8eaee;
+  background: var(--bd-tile);
   border-radius: 0.4rem;
 }
 
-/* Centered DANDI and BICAN logos with the intro line beneath */
+/* Centered logos and intro */
 .md-typeset .bd-hero {
   margin: 0 0 2.25rem;
   text-align: center;
-}
-
-.bd-logos {
-  display: inline-flex;
-  align-items: center;
-  gap: 1.75rem;
-  padding: 0.6rem 1.5rem;
-}
-
-.md-typeset .bd-logos a {
-  display: block;
-  line-height: 0;
-}
-
-.md-typeset img.bd-logo {
-  width: auto;
-  max-width: none;
-}
-
-.md-typeset img.bd-logo--dandi {
-  height: 4rem;
-}
-
-.md-typeset img.bd-logo--bican {
-  height: 2.5rem;
-}
-
-.bd-logos__divider {
-  width: 1px;
-  height: 2.75rem;
-  background: var(--md-default-fg-color--lightest);
-}
-
-/* Dark mode: each logo on its own soft light tile, in place of the divider */
-[data-md-color-scheme="slate"] .bd-logos {
-  align-items: stretch;
-  gap: 0.75rem;
-}
-
-[data-md-color-scheme="slate"] .md-typeset .bd-logos a {
-  display: flex;
-  align-items: center;
-  padding: 0.7rem 1.25rem;
-  background: #e8eaee;
-  border-radius: 0.75rem;
-}
-
-[data-md-color-scheme="slate"] .bd-logos__divider {
-  display: none;
 }
 
 .md-typeset .bd-hero p {
@@ -74,23 +28,64 @@
   text-wrap: balance;
 }
 
-.md-typeset #bican-dashboard {
-  --bd-border: var(--md-default-fg-color--lightest);
-  --bd-surface: var(--md-default-bg-color);
-  --bd-subtle: var(--md-code-bg-color);
-  --bd-radius: 0.75rem;
+.bd-logos {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 0.6rem 1.5rem;
 }
 
-.bd-visually-hidden {
-  position: absolute;
+.bd-logos a {
+  display: flex;
+  align-items: center;
+}
+
+.md-typeset .bd-logos img {
+  width: auto;
+  max-width: none;
+}
+
+.md-typeset .bd-logo--dandi { height: 4rem; }
+.md-typeset .bd-logo--bican { height: 2.5rem; }
+
+.bd-logos__divider {
   width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
+  height: 2.75rem;
+  background: var(--md-default-fg-color--lightest);
 }
 
-/* Summary numbers */
+/* Dark mode: each logo on its own light tile, in place of the divider */
+[data-md-color-scheme="slate"] .bd-logos {
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+[data-md-color-scheme="slate"] .bd-logos a {
+  padding: 0.7rem 1.25rem;
+  background: var(--bd-tile);
+  border-radius: 0.75rem;
+}
+
+[data-md-color-scheme="slate"] .bd-logos__divider {
+  display: none;
+}
+
+/* Shared: bordered boxes and small uppercase labels */
+.bd-stat,
+.md-typeset .bd-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.75rem;
+}
+
+.bd-stat__label,
+.md-typeset .bd-facts dt {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Totals */
 .bd-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
@@ -98,20 +93,8 @@
   margin-bottom: 1.75rem;
 }
 
-.bd-stat {
-  padding: 0.9rem 1rem;
-  border: 1px solid var(--bd-border);
-  border-radius: var(--bd-radius);
-  background: var(--bd-surface);
-}
-
-.bd-stat__label {
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--md-default-fg-color--light);
-}
+.bd-stat { padding: 0.9rem 1rem; }
+.bd-stat__label { font-size: 0.68rem; }
 
 .bd-stat__value {
   margin-top: 0.2rem;
@@ -136,14 +119,8 @@
   margin-bottom: 0.75rem;
 }
 
-.bd-controls label {
-  flex: 1 1 8rem;
-  min-width: 0;
-}
-
-.bd-controls .bd-search {
-  flex: 2.5 1 14rem;
-}
+.bd-controls label { flex: 1 1 8rem; min-width: 0; }
+.bd-controls .bd-search { flex: 2.5 1 14rem; }
 
 .bd-controls input,
 .bd-controls select {
@@ -153,18 +130,14 @@
   font: inherit;
   font-size: 0.75rem;
   color: var(--md-default-fg-color);
-  background-color: var(--bd-surface);
+  background: var(--md-default-bg-color);
   border: 1px solid var(--md-default-fg-color--lighter);
   border-radius: 0.5rem;
 }
 
-.bd-controls select {
-  padding-right: 1.8rem;
-  cursor: pointer;
-}
+.bd-controls select { padding-right: 1.8rem; cursor: pointer; }
 
-.bd-controls input:focus-visible,
-.bd-controls select:focus-visible {
+.bd-controls :focus-visible {
   outline: 2px solid var(--md-accent-fg-color);
   outline-offset: 1px;
 }
@@ -186,11 +159,9 @@
   cursor: pointer;
 }
 
-.bd-clear:hover {
-  text-decoration: underline;
-}
+.bd-clear:hover { text-decoration: underline; }
 
-/* Cards */
+/* Cards: muted small text by default; title, numbers and species in full color */
 .bd-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
@@ -203,9 +174,8 @@
   gap: 0.6rem;
   min-width: 0;
   padding: 1rem 1.1rem;
-  background: var(--bd-surface);
-  border: 1px solid var(--bd-border);
-  border-radius: var(--bd-radius);
+  font-size: 0.72rem;
+  color: var(--md-default-fg-color--light);
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 
@@ -214,18 +184,16 @@
   box-shadow: var(--md-shadow-z1);
 }
 
+.md-typeset .bd-card p { margin: 0; line-height: 1.5; }
+
 .bd-card__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
 }
 
-.bd-id {
-  font-family: var(--md-code-font-family, monospace);
-  font-size: 0.68rem;
-  color: var(--md-default-fg-color--light);
-}
+.bd-id { font-family: var(--md-code-font-family, monospace); font-size: 0.68rem; }
+.md-typeset .bd-card__meta { font-size: 0.66rem; }
 
 .bd-status {
   padding: 0.1rem 0.5rem;
@@ -235,19 +203,11 @@
 }
 
 .bd-status--published {
-  color: var(--md-primary-fg-color);
-  background: color-mix(in srgb, var(--md-primary-fg-color) 12%, transparent);
-}
-
-[data-md-color-scheme="slate"] .bd-status--published {
   color: var(--md-typeset-a-color);
-  background: color-mix(in srgb, var(--md-typeset-a-color) 16%, transparent);
+  background: color-mix(in srgb, currentColor 14%, transparent);
 }
 
-.bd-status--draft {
-  color: var(--md-default-fg-color--light);
-  border: 1px dashed var(--md-default-fg-color--lighter);
-}
+.bd-status--draft { border: 1px dashed var(--md-default-fg-color--lighter); }
 
 .md-typeset .bd-card__title {
   margin: 0;
@@ -258,81 +218,46 @@
   overflow-wrap: anywhere;
 }
 
-.md-typeset .bd-card__title a {
-  color: var(--md-default-fg-color);
-  text-decoration: none;
-}
+.md-typeset .bd-card__title a { color: var(--md-default-fg-color); text-decoration: none; }
+.md-typeset .bd-card__title a:hover { color: var(--md-typeset-a-color); text-decoration: underline; }
 
-.md-typeset .bd-card__title a:hover {
-  color: var(--md-typeset-a-color);
-  text-decoration: underline;
-}
+.md-typeset .bd-card__note { font-weight: 600; }
 
-.md-typeset .bd-card__note {
-  margin: 0;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--md-default-fg-color--light);
-}
-
-.md-typeset .bd-card__desc {
+.bd-card__desc {
   display: -webkit-box;
-  margin: 0;
   overflow: hidden;
-  font-size: 0.72rem;
-  line-height: 1.5;
-  color: var(--md-default-fg-color--light);
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 
-.bd-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-}
+.bd-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 
 .bd-chip {
   padding: 0.1rem 0.5rem;
   font-size: 0.64rem;
-  color: var(--md-default-fg-color--light);
-  background: var(--bd-subtle);
+  background: var(--md-code-bg-color);
   border-radius: 1rem;
 }
 
-.bd-chip--species {
-  color: var(--md-default-fg-color);
-}
+.bd-chip--species { color: var(--md-default-fg-color); }
 
 .md-typeset .bd-facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
   margin: 0.2rem 0 0;
-  padding: 0.6rem 0 0;
-  border-top: 1px solid var(--bd-border);
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
 }
 
-.md-typeset .bd-facts dt {
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--md-default-fg-color--light);
-}
+.md-typeset .bd-facts dt { font-size: 0.6rem; }
 
 .md-typeset .bd-facts dd {
   margin: 0.1rem 0 0;
   font-size: 0.8rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
-}
-
-.md-typeset .bd-card__meta {
-  margin: 0;
-  font-size: 0.66rem;
-  line-height: 1.5;
-  color: var(--md-default-fg-color--light);
+  color: var(--md-default-fg-color);
 }
 
 .bd-links {
@@ -344,7 +269,6 @@
 }
 
 .md-typeset .bd-btn {
-  display: inline-block;
   padding: 0.3rem 0.7rem;
   font-size: 0.68rem;
   font-weight: 600;
@@ -354,32 +278,26 @@
   border-radius: 0.5rem;
 }
 
-.md-typeset .bd-btn:hover {
-  color: var(--md-accent-fg-color);
-  text-decoration: none;
-  border-color: var(--md-accent-fg-color);
-}
+.md-typeset .bd-btn:hover { color: var(--md-accent-fg-color); border-color: currentColor; }
 
-.md-typeset .bd-btn--primary {
-  color: var(--md-primary-bg-color);
-  background: var(--md-primary-fg-color);
-  border-color: var(--md-primary-fg-color);
-}
-
+.md-typeset .bd-btn--primary,
 .md-typeset .bd-btn--primary:hover {
   color: var(--md-primary-bg-color);
-  background: var(--md-primary-fg-color--dark);
-  border-color: var(--md-primary-fg-color--dark);
+  background: var(--md-primary-fg-color);
+  border-color: transparent;
 }
 
+.md-typeset .bd-btn--primary:hover { background: var(--md-primary-fg-color--dark); }
+
+/* Loading, no results, and the "last updated" line */
 .md-typeset .bd-empty,
 .md-typeset .bd-loading {
   grid-column: 1 / -1;
   padding: 2rem 1rem;
   text-align: center;
   color: var(--md-default-fg-color--light);
-  border: 1px dashed var(--bd-border);
-  border-radius: var(--bd-radius);
+  border: 1px dashed var(--md-default-fg-color--lightest);
+  border-radius: 0.75rem;
 }
 
 .md-typeset .bd-footnote {
@@ -388,50 +306,19 @@
   color: var(--md-default-fg-color--light);
 }
 
+/* Phones */
 @media (max-width: 44.9375em) {
-  .md-typeset img.bd-logo--dandi {
-    height: 3rem;
-  }
+  .md-typeset .bd-logo--dandi { height: 3rem; }
+  .md-typeset .bd-logo--bican { height: 1.9rem; }
+  .bd-logos { gap: 1.25rem; padding: 0.5rem 1rem; }
+  .bd-logos__divider { height: 2rem; }
 
-  .md-typeset img.bd-logo--bican {
-    height: 1.9rem;
-  }
+  .bd-stats { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .bd-stat { padding: 0.55rem 0.65rem; }
+  .bd-stat__label { font-size: 0.55rem; }
+  .bd-stat__value { font-size: 1.05rem; }
+  .bd-stat__unit { font-size: 0.7rem; }
 
-  .bd-logos {
-    gap: 1.25rem;
-    padding: 0.5rem 1rem;
-  }
-
-  .bd-logos__divider {
-    height: 2rem;
-  }
-
-  .bd-stats {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.5rem;
-  }
-
-  .bd-stat {
-    padding: 0.55rem 0.65rem;
-  }
-
-  .bd-stat__label {
-    font-size: 0.55rem;
-  }
-
-  .bd-stat__value {
-    font-size: 1.05rem;
-  }
-
-  .bd-stat__unit {
-    font-size: 0.7rem;
-  }
-
-  .bd-controls label {
-    flex: 1 1 calc(50% - 0.25rem);
-  }
-
-  .bd-controls .bd-search {
-    flex-basis: 100%;
-  }
+  .bd-controls label { flex-basis: calc(50% - 0.25rem); }
+  .bd-controls .bd-search { flex-basis: 100%; }
 }

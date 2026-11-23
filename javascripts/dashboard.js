@@ -108,7 +108,7 @@
     if (!Object.hasOwn(SORTS, state.sort)) state.sort = "newest";
 
     const select = (key, label, opts) => `
-        <label><span class="bd-visually-hidden">${label}</span>
+        <label><span class="md-visually-hidden">${label}</span>
           <select data-key="${key}">${opts
             .map(([value, text]) => `<option value="${esc(value)}"${value && value === state[key] ? " selected" : ""}>${esc(text)}</option>`)
             .join("")}</select></label>`;
@@ -117,7 +117,7 @@
       <section class="bd-stats" aria-label="Totals">${statTiles(all)}</section>
       <div class="bd-controls" role="search">
         <label class="bd-search">
-          <span class="bd-visually-hidden">Search dandisets</span>
+          <span class="md-visually-hidden">Search dandisets</span>
           <input type="search" placeholder="Search titles, people, keywords, IDs…" value="${esc(state.q)}" data-key="q">
         </label>
         ${select("species", "Species", countedOptions(all.flatMap(speciesOf), "All species"))}

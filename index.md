@@ -4,7 +4,7 @@ hide:
   - toc
 ---
 
-# BICAN dandisets { .bd-visually-hidden }
+# BICAN dandisets { .md-visually-hidden }
 
 <div class="bd-hero" markdown>
 
