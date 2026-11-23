@@ -86,12 +86,6 @@
 
   function render(root, data) {
     const all = data.dandisets;
-    all.forEach((d) => {
-      d.searchText = [d.id, d.title, d.text, ...speciesOf(d), ...d.species.map((s) => s.scientific)]
-        .join(" ")
-        .toLowerCase();
-    });
-
     // Read filters from the URL, so a filtered view can be shared.
     const params = new URLSearchParams(location.search);
     const state = { q: "", species: "", type: "", sort: "newest" };
@@ -131,7 +125,7 @@
           (d) =>
             (!state.species || speciesOf(d).includes(state.species)) &&
             (!state.type || d.approaches.includes(state.type)) &&
-            words.every((word) => d.searchText.includes(word))
+            words.every((word) => d.search.includes(word))
         )
         .sort(SORTS[state.sort].fn);
 
