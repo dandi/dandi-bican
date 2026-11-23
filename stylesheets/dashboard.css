@@ -176,7 +176,6 @@
   font-size: 0.72rem;
   color: var(--md-default-fg-color--light);
   transition: border-color 0.15s, box-shadow 0.15s;
-  container-type: inline-size; /* lets the footer adapt to the card's width */
 }
 
 .md-typeset .bd-card:hover {
@@ -202,8 +201,6 @@
   white-space: nowrap;
   border-radius: 1rem;
 }
-
-.bd-status__date { font-weight: 400; }
 
 .bd-status--published {
   color: var(--md-typeset-a-color);
@@ -236,17 +233,24 @@
   border-radius: 1rem;
 }
 
-/* Footer: counts on the left, button on the right; pinned to the bottom so footers line up across a row */
+/* Footer: counts, then the button with the date on the right.
+   Pinned to the bottom so footers line up across a row. */
 .bd-card__footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
   gap: 0.5rem;
   margin-top: auto;
   padding-top: 0.75rem;
   border-top: 1px solid var(--md-default-fg-color--lightest);
 }
+
+.bd-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.bd-card__date { font-size: 0.66rem; white-space: nowrap; }
 
 .md-typeset .bd-card__stats { font-size: 0.68rem; }
 .md-typeset .bd-card__stats strong { font-weight: 600; color: var(--md-default-fg-color); }
@@ -279,11 +283,6 @@
 }
 
 .bd-btn:hover svg { transform: translateX(2px); }
-
-/* Narrower cards: counts above the button, the same in every card */
-@container (max-width: 21rem) {
-  .bd-card__footer { flex-direction: column; align-items: flex-start; }
-}
 
 /* Loading, no results, and the "last updated" line */
 .md-typeset .bd-empty,

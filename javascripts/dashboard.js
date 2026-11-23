@@ -58,11 +58,10 @@
 
   function card(d) {
     const [size, unit] = fmtBytes(d.bytes);
-    // The status label carries the date that status began: published, or created for drafts.
     const status =
       d.published
-        ? `<span class="bd-status bd-status--published" title="Version ${esc(d.version)}">Published <span class="bd-status__date">${fmtDate(d.published)}</span></span>`
-        : `<span class="bd-status bd-status--draft" title="Not yet published on DANDI">Draft · <span class="bd-status__date">created ${fmtDate(d.created)}</span></span>`;
+        ? `<span class="bd-status bd-status--published" title="Version ${esc(d.version)}">Published</span>`
+        : `<span class="bd-status bd-status--draft" title="Not yet published on DANDI">Draft</span>`;
     const chips = [
       ...d.species.map((s) => `<span class="bd-chip"${s.scientific ? ` title="${esc(s.scientific)}"` : ""}>${esc(s.name)}</span>`),
       ...d.approaches.map((a) => `<span class="bd-chip">${esc(a)}</span>`),
@@ -80,8 +79,11 @@
         ${chips ? `<div class="bd-chips">${chips}</div>` : ""}
         <div class="bd-card__footer">
           <p class="bd-card__stats">${count(d.subjects, "subject")} · ${count(d.files, "file")} · <strong>${size} ${unit}</strong></p>
-          <a class="bd-btn" href="${esc(d.url)}">View on DANDI
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <div class="bd-card__actions">
+            <a class="bd-btn" href="${esc(d.url)}">View on DANDI
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <span class="bd-card__date" title="${d.published ? "Published" : "Created"} on DANDI">${fmtDate(d.published || d.created)}</span>
+          </div>
         </div>
       </article>`;
   }
