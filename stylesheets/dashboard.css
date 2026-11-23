@@ -282,7 +282,7 @@
 
 .bd-btn:hover svg { transform: translateX(2px); }
 
-/* Loading and "no results" messages */
+/* Messages and the "last updated" line */
 .md-typeset .bd-empty,
 .md-typeset .bd-loading {
   grid-column: 1 / -1;
@@ -291,6 +291,12 @@
   color: var(--md-default-fg-color--light);
   border: 1px dashed var(--md-default-fg-color--lightest);
   border-radius: 0.75rem;
+}
+
+.md-typeset .bd-footnote {
+  margin-top: 1.5rem;
+  font-size: 0.66rem;
+  color: var(--md-default-fg-color--light);
 }
 
 /* No repository widget in the navigation bar, so drop its empty slot and keep the theme toggle at the right */
