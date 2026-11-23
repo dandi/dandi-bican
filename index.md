@@ -24,5 +24,5 @@ Data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https://brain-bican.
 
 <noscript>
   This page needs JavaScript to list the dandisets. The full list is in
-  <a href="https://github.com/kabilar/dandi-bican/blob/main/dandisets.yaml">dandisets.yaml</a>.
+  <a href="https://github.com/dandi/dandi-bican/blob/main/dandisets.yaml">dandisets.yaml</a>.
 </noscript>
