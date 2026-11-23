@@ -76,10 +76,11 @@
     return `
       <article class="bd-card">
         <div class="bd-card__top">
-          <span class="bd-id">DANDI:${esc(d.id)}</span>
+          <span><span class="bd-id">DANDI:${esc(d.id)}</span> · <span title="${d.published ? "Published" : "Created"} on DANDI">${fmtDate(d.published || d.created)}</span></span>
           ${status}
         </div>
         <h3 class="bd-card__title"><a href="${esc(d.url)}">${esc(d.title)}</a></h3>
+        ${who ? `<p class="bd-card__byline" title="${who}">${who}</p>` : ""}
         ${d.note ? `<p class="bd-card__note">${esc(d.note)}</p>` : ""}
         ${d.description ? `<p class="bd-card__desc" title="${esc(d.description)}">${esc(d.description)}</p>` : ""}
         ${chips ? `<div class="bd-chips">${chips}</div>` : ""}
@@ -88,7 +89,6 @@
           <div><dt>Files</dt><dd>${fmtInt(d.files)}</dd></div>
           <div><dt>Size</dt><dd>${size} ${unit}</dd></div>
         </dl>
-        <p class="bd-card__meta">${who ? `${who}<br>` : ""}${d.published ? "Published" : "Created"} ${fmtDate(d.published || d.created)}</p>
         <div class="bd-links">${links.filter(Boolean).join("")}</div>
       </article>`;
   }
