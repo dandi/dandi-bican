@@ -110,8 +110,11 @@
         ${select("sort", "Sort by", Object.entries(SORTS).map(([key, s]) => [key, `Sort: ${s.label}`]))}
       </div>
       <div class="bd-summary" aria-live="polite"></div>
-      <div class="bd-grid"></div>
-      <p class="bd-footnote">Last updated ${esc(data.generated.replace("T", " at ").replace("Z", " UTC"))}.</p>`;
+      <div class="bd-grid"></div>`;
+
+    // Show the update date on the right of the footer.
+    document.querySelector(".md-footer-meta__inner")
+      ?.insertAdjacentHTML("beforeend", `<div class="bd-updated">Last updated ${fmtDate(data.generated)}</div>`);
 
     const grid = root.querySelector(".bd-grid");
     const summary = root.querySelector(".bd-summary");
