@@ -222,8 +222,6 @@
 .md-typeset .bd-card__title a { color: var(--md-default-fg-color); text-decoration: none; }
 .md-typeset .bd-card__title a:hover { color: var(--md-typeset-a-color); text-decoration: underline; }
 
-.md-typeset .bd-card__note { font-weight: 600; }
-
 .bd-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 
 .bd-chip {

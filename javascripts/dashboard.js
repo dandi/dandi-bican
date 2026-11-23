@@ -72,7 +72,6 @@
           ${status}
         </div>
         <h3 class="bd-card__title"><a href="${esc(d.url)}">${esc(d.title).replace(/_/g, "_<wbr>")}</a></h3>
-        ${d.note ? `<p class="bd-card__note">${esc(d.note)}</p>` : ""}
         ${chips ? `<div class="bd-chips">${chips}</div>` : ""}
         <div class="bd-card__footer">
           <p class="bd-card__stats">${count(d.subjects, "subject")} · ${count(d.files, "file")} · <strong>${size} ${unit}</strong></p>
@@ -88,7 +87,7 @@
   function render(root, data) {
     const all = data.dandisets;
     all.forEach((d) => {
-      d.searchText = [d.id, d.title, d.description, d.note, ...d.contacts, ...d.organizations, ...d.keywords, ...speciesOf(d), ...d.species.map((s) => s.scientific)]
+      d.searchText = [d.id, d.title, d.description, ...d.contacts, ...d.organizations, ...d.keywords, ...speciesOf(d), ...d.species.map((s) => s.scientific)]
         .join(" ")
         .toLowerCase();
     });

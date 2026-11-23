@@ -73,22 +73,21 @@ def read_list():
     raw = yaml.safe_load(LIST_FILE.read_text()) or []
     if isinstance(raw, dict):  # also allow a "dandisets:" key
         raw = raw.get("dandisets") or []
-    entries, errors, seen = [], [], set()
+    ids, errors = [], []
     for n, item in enumerate(raw, 1):
-        entry = dict(item) if isinstance(item, dict) else {"id": item}
-        did = str(entry.get("id", "")).strip()
+        value = item.get("id") if isinstance(item, dict) else item  # also allow "id: ..." entries
+        did = str(value).strip()
         if did.isdigit():
             did = did.zfill(6)  # put back zeros lost when an ID isn't quoted
         if not re.fullmatch(r"\d{6}", did):
-            errors.append(f"entry {n}: '{entry.get('id')}' is not a six-digit dandiset ID")
-        elif did in seen:
+            errors.append(f"entry {n}: '{value}' is not a six-digit dandiset ID")
+        elif did in ids:
             errors.append(f"entry {n}: {did} is listed more than once")
         else:
-            seen.add(did)
-            entries.append({**entry, "id": did})
+            ids.append(did)
     if errors:
         sys.exit("dandisets.yaml has problems:\n  " + "\n  ".join(errors))
-    return entries
+    return ids
 
 
 def unique(items):
@@ -111,8 +110,7 @@ def species_list(summary):
     return list(found.values())
 
 
-def build_record(entry):
-    did = entry["id"]
+def build_record(did):
     try:
         info = get_json(f"{API}/dandisets/{did}/")
     except urllib.error.HTTPError as err:
@@ -135,7 +133,7 @@ def build_record(entry):
             orgs.append(c["name"])
     approaches = unique(APPROACHES.get(name) or name.removesuffix(" approach").capitalize()
                         for name in ((ap.get("name") or "").strip() for ap in summary.get("approach") or []))
-    record = {
+    return {
         "id": did,
         "title": meta.get("name") or did,
         "description": meta.get("description") or "",  # searched, not shown
@@ -153,20 +151,17 @@ def build_record(entry):
         "updated": info["draft_version"]["modified"][:10],  # when the draft last changed
         "published": (meta.get("datePublished") or "")[:10] or None,
     }
-    if entry.get("note"):
-        record["note"] = str(entry["note"]).strip()
-    return record
 
 
 def main():
     records, errors = [], []
-    for entry in read_list():
+    for did in read_list():
         try:
-            records.append(build_record(entry))
-            print(f"  {entry['id']}  ok")
+            records.append(build_record(did))
+            print(f"  {did}  ok")
         except LookupError as err:
             errors.append(str(err))
-            print(f"  {entry['id']}  ERROR")
+            print(f"  {did}  ERROR")
     if errors:
         sys.exit("Could not load every dandiset:\n  " + "\n  ".join(errors))
     OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
