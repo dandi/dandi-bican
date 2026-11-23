@@ -87,7 +87,7 @@
   function render(root, data) {
     const all = data.dandisets;
     all.forEach((d) => {
-      d.searchText = [d.id, d.title, d.description, ...d.contacts, ...d.organizations, ...d.keywords, ...speciesOf(d), ...d.species.map((s) => s.scientific)]
+      d.searchText = [d.id, d.title, d.text, ...speciesOf(d), ...d.species.map((s) => s.scientific)]
         .join(" ")
         .toLowerCase();
     });

@@ -71,16 +71,10 @@ def get_json(url):
 def read_list():
     """Read dandisets.yaml and check the IDs."""
     raw = yaml.load(LIST_FILE.read_text(), Loader=yaml.BaseLoader) or []  # read IDs as text, keeping leading zeros
-    if isinstance(raw, dict):  # also allow a "dandisets:" key
-        raw = raw.get("dandisets") or []
     ids, errors = [], []
-    for n, item in enumerate(raw, 1):
-        value = item.get("id") if isinstance(item, dict) else item  # also allow "id: ..." entries
-        did = str(value).strip()
-        if did.isdigit():
-            did = did.zfill(6)  # allow short IDs, e.g. 636 -> 000636
-        if not re.fullmatch(r"\d{6}", did):
-            errors.append(f"entry {n}: '{value}' is not a six-digit dandiset ID")
+    for n, did in enumerate(raw, 1):
+        if not re.fullmatch(r"\d{6}", str(did)):
+            errors.append(f"entry {n}: '{did}' is not a six-digit dandiset ID")
         elif did in ids:
             errors.append(f"entry {n}: {did} is listed more than once")
         else:
@@ -103,7 +97,7 @@ def from_keywords(keywords, table):
 def species_list(summary):
     found = {}
     for sp in summary.get("species") or []:
-        taxon = (sp.get("identifier") or "").rsplit("_", 1)[-1].rsplit("/", 1)[-1]
+        taxon = (sp.get("identifier") or "").split("_")[-1]  # e.g. ".../NCBITaxon_9606" -> "9606"
         parts = (sp.get("name") or "").split(" - ")  # e.g. "Homo sapiens - Human"
         scientific, common = parts[0].strip(), SPECIES.get(taxon) or parts[-1].strip()
         found.setdefault(taxon or common.lower(), {"name": common, "scientific": scientific if scientific != common else ""})
@@ -123,20 +117,17 @@ def build_record(did):
     meta = get_json(f"{API}/dandisets/{did}/versions/{version}/")
     summary = meta.get("assetsSummary") or {}
     keywords = meta.get("keywords") or []
-    contacts, orgs = [], []
-    for c in meta.get("contributor") or []:
-        roles = c.get("roleName") or []
-        if c.get("schemaKey") == "Person" and "dcite:ContactPerson" in roles:
-            last, _, first = c["name"].partition(",")  # "Lee, Brian" -> "Brian Lee"
-            contacts.append(f"{first.strip()} {last.strip()}".strip())
-        elif c.get("schemaKey") == "Organization" and "dcite:Funder" not in roles and c.get("name"):
-            orgs.append(c["name"])
-    approaches = unique(APPROACHES.get(name) or name.removesuffix(" approach").capitalize()
-                        for name in ((ap.get("name") or "").strip() for ap in summary.get("approach") or []))
+    people = meta.get("contributor") or []
+    contacts = [c["name"] for c in people if "dcite:ContactPerson" in (c.get("roleName") or [])
+                and c.get("schemaKey") == "Person"][:3]
+    orgs = [c["name"] for c in people if "dcite:Funder" not in (c.get("roleName") or [])
+            and c.get("schemaKey") == "Organization"][:2]
+    approach_names = [(ap.get("name") or "").strip() for ap in summary.get("approach") or []]
+    approaches = unique(APPROACHES.get(n) or n.removesuffix(" approach").capitalize() for n in approach_names)
     return {
         "id": did,
         "title": meta.get("name") or did,
-        "description": meta.get("description") or "",  # searched, not shown
+        "text": " ".join([meta.get("description") or "", *contacts, *orgs, *keywords]),  # searched, not shown
         "version": version,
         "url": f"https://dandiarchive.org/dandiset/{did}",
         "species": species_list(summary)
@@ -145,9 +136,6 @@ def build_record(did):
         "subjects": summary.get("numberOfSubjects") or 0,
         "files": summary.get("numberOfFiles") or 0,
         "bytes": summary.get("numberOfBytes") or 0,
-        "contacts": contacts[:3],
-        "organizations": orgs[:2],
-        "keywords": keywords,
         "updated": info["draft_version"]["modified"][:10],  # when the draft last changed
         "published": (meta.get("datePublished") or "")[:10] or None,
     }
