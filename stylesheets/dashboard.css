@@ -265,26 +265,19 @@
 
 .bd-links { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-top: 0.2rem; }
 
-.md-typeset .bd-btn {
+.md-typeset .bd-btn,
+.md-typeset .bd-btn:hover {
   padding: 0.3rem 0.7rem;
   font-size: 0.68rem;
   font-weight: 600;
-  color: var(--md-default-fg-color);
+  color: var(--md-primary-bg-color);
   text-decoration: none;
-  border: 1px solid var(--md-default-fg-color--lighter);
+  background: var(--md-primary-fg-color);
+  border: 1px solid transparent;
   border-radius: 0.5rem;
 }
 
-.md-typeset .bd-btn:hover { color: var(--md-accent-fg-color); border-color: currentColor; }
-
-.md-typeset .bd-btn--primary,
-.md-typeset .bd-btn--primary:hover {
-  color: var(--md-primary-bg-color);
-  background: var(--md-primary-fg-color);
-  border-color: transparent;
-}
-
-.md-typeset .bd-btn--primary:hover { background: var(--md-primary-fg-color--dark); }
+.md-typeset .bd-btn:hover { background: var(--md-primary-fg-color--dark); }
 
 /* Loading, no results, and the "last updated" line */
 .md-typeset .bd-empty,

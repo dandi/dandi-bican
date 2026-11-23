@@ -67,11 +67,6 @@
       ...d.approaches.map((a) => `<span class="bd-chip">${esc(a)}</span>`),
     ].join("");
     const who = [d.contacts.slice(0, 2).join(", "), d.organizations[0]].filter(Boolean).map(esc).join(" · ");
-    const links = [
-      `<a class="bd-btn bd-btn--primary" href="${esc(d.url)}">View on DANDI</a>`,
-      d.doi_url && `<a class="bd-btn" href="${esc(d.doi_url)}" title="${esc(d.doi)}">DOI</a>`,
-      ...d.papers.slice(0, 2).map((p) => `<a class="bd-btn" href="${esc(p.url)}">${esc(p.label)}</a>`),
-    ];
 
     return `
       <article class="bd-card">
@@ -88,7 +83,7 @@
           <div><dt>Files</dt><dd>${fmtInt(d.files)}</dd></div>
           <div><dt>Size</dt><dd>${size} ${unit}</dd></div>
         </dl>
-        <div class="bd-links">${links.filter(Boolean).join("")}</div>
+        <div class="bd-links"><a class="bd-btn" href="${esc(d.url)}">View on DANDI</a></div>
       </article>`;
   }
 
