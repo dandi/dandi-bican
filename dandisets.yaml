@@ -2,7 +2,7 @@
 #
 # To add one: copy any line below, change the ID, and open a pull request.
 # Keep the quotes so the leading zeros stay. Everything else on the card
-# (title, species, size, contributors, links) comes from DANDI automatically.
+# (title, species, data type, counts, size, date) comes from DANDI automatically.
 #
 # Optional: add a short line to show on the card, for example
 #   - id: "000636"

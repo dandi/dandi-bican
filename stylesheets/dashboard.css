@@ -70,18 +70,11 @@
   display: none;
 }
 
-/* Shared: bordered boxes and small uppercase labels */
+/* Shared: bordered boxes */
 .bd-stat,
 .md-typeset .bd-card {
   border: 1px solid var(--md-default-fg-color--lightest);
   border-radius: 0.75rem;
-}
-
-.bd-stat__label {
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--md-default-fg-color--light);
 }
 
 /* Totals */
@@ -93,7 +86,14 @@
 }
 
 .bd-stat { padding: 0.9rem 1rem; }
-.bd-stat__label { font-size: 0.68rem; }
+
+.bd-stat__label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
 
 .bd-stat__value {
   margin-top: 0.2rem;
@@ -160,7 +160,7 @@
 
 .bd-clear:hover { text-decoration: underline; }
 
-/* Cards: muted small text by default; title, numbers and species in full color */
+/* Cards: muted small text by default; title, tags and numbers in full color */
 .bd-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
@@ -185,7 +185,7 @@
 
 .md-typeset .bd-card p { margin: 0; line-height: 1.5; }
 
-/* Top row: ID and date on the left, status on the right */
+/* Top row: ID on the left, status on the right */
 .bd-card__top {
   display: flex;
   align-items: center;
@@ -194,6 +194,7 @@
 }
 
 .bd-id { font-family: var(--md-code-font-family, monospace); }
+
 .bd-status {
   padding: 0.1rem 0.5rem;
   font-size: 0.62rem;

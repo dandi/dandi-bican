@@ -139,7 +139,7 @@ def build_record(entry):
     record = {
         "id": did,
         "title": meta.get("name") or did,
-        "description": " ".join((meta.get("description") or "").split()),
+        "description": meta.get("description") or "",  # searched, not shown
         "version": version,
         "url": f"https://dandiarchive.org/dandiset/{did}",
         "species": species_list(summary)
