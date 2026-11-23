@@ -310,6 +310,15 @@
   text-decoration: none;
 }
 
+/* Arrow after the GitHub link, like gallery.lincbrain.org */
+.bd-external {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-left: 0.25rem;
+  vertical-align: -0.03rem;
+  fill: currentColor;
+}
+
 /* Phones */
 @media (max-width: 44.9375em) {
   .md-typeset .bd-logo--dandi { height: 3rem; }

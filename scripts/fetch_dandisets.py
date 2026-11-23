@@ -124,9 +124,10 @@ def build_record(did):
             and c.get("schemaKey") == "Organization"][:2]
     approach_names = [(ap.get("name") or "").strip() for ap in summary.get("approach") or []]
     approaches = unique(APPROACHES.get(n) or n.removesuffix(" approach").capitalize() for n in approach_names)
+    approaches = approaches or from_keywords(keywords, KEYWORD_APPROACHES)
     title = meta.get("name") or did
     species = species_list(summary) or [{"name": n, "scientific": ""} for n in from_keywords(keywords, KEYWORD_SPECIES)]
-    search = [did, title, meta.get("description") or "", *contacts, *orgs, *keywords,
+    search = [f"DANDI:{did}", title, meta.get("description") or "", *contacts, *orgs, *keywords, *approaches,
               *(s["name"] for s in species), *(s["scientific"] for s in species)]
     return {
         "id": did,
@@ -135,7 +136,7 @@ def build_record(did):
         "version": version,
         "url": f"https://dandiarchive.org/dandiset/{did}",
         "species": species,
-        "approaches": approaches or from_keywords(keywords, KEYWORD_APPROACHES),
+        "approaches": approaches,
         "subjects": summary.get("numberOfSubjects") or 0,
         "files": summary.get("numberOfFiles") or 0,
         "bytes": summary.get("numberOfBytes") or 0,
