@@ -1,10 +1,10 @@
-/* BICAN dashboard. Colors come from the theme, so light and dark mode both work. */
+/* Dashboard styles. Theme colors keep light and dark mode working. */
 
 :root {
-  --bd-tile: #e8eaee; /* light backing for the logos in dark mode */
+  --bd-tile: #e8eaee; /* logo background in dark mode */
 }
 
-/* Navigation bar logo: taller than the theme's icon size, since it includes the wordmark */
+/* Navigation bar logo, made taller so its text is readable */
 .md-header__button.md-logo img {
   height: 1.9rem;
 }
@@ -54,7 +54,7 @@
   background: var(--md-default-fg-color--lightest);
 }
 
-/* Dark mode: each logo on its own light tile, in place of the divider */
+/* Dark mode: put each logo on a light tile and hide the divider */
 [data-md-color-scheme="slate"] .bd-logos {
   align-items: stretch;
   gap: 0.75rem;
@@ -70,7 +70,7 @@
   display: none;
 }
 
-/* Shared: bordered boxes */
+/* Borders for the totals and cards */
 .bd-stat,
 .md-typeset .bd-card {
   border: 1px solid var(--md-default-fg-color--lightest);
@@ -160,7 +160,7 @@
 
 .bd-clear:hover { text-decoration: underline; }
 
-/* Cards: muted small text by default; title, tags and numbers in full color */
+/* Cards */
 .bd-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
@@ -185,7 +185,7 @@
 
 .md-typeset .bd-card p { margin: 0; line-height: 1.5; }
 
-/* Top row: ID on the left, status on the right */
+/* Card top: ID and status */
 .bd-card__top {
   display: flex;
   align-items: center;
@@ -234,8 +234,7 @@
   border-radius: 1rem;
 }
 
-/* Footer: counts, then the button with the date on the right.
-   Pinned to the bottom so footers line up across a row. */
+/* Card footer, kept at the bottom so footers line up across a row */
 .bd-card__footer {
   display: grid;
   gap: 0.5rem;
@@ -285,7 +284,7 @@
 
 .bd-btn:hover svg { transform: translateX(2px); }
 
-/* Loading, no results, and the "last updated" line */
+/* Messages and the "last updated" line */
 .md-typeset .bd-empty,
 .md-typeset .bd-loading {
   grid-column: 1 / -1;

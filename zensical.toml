@@ -8,7 +8,7 @@ repo_name = "kabilar/dandi-bican"
 extra_css = ["stylesheets/dashboard.css"]
 extra_javascript = ["javascripts/dashboard.js"]
 
-# The site's files live at the repository root; keep the repository's own files off the site.
+# Build the site from the repository root, leaving out these files.
 docs_dir = "."
 exclude_docs = """
 README.md
@@ -18,7 +18,7 @@ scripts/
 zensical.toml
 """
 
-# To add a page: create a Markdown file at the repository root and list it here.
+# To add a page, create a Markdown file and list it here.
 nav = [
   { "Dashboard" = "index.md" },
 ]
@@ -52,11 +52,11 @@ accent = "indigo"
 toggle.icon = "lucide/moon"
 toggle.name = "Switch to system preference"
 
-# attr_list hides the page heading; md_in_html allows Markdown inside the logo block.
+# Used by index.md.
 [project.markdown_extensions]
 attr_list = {}
 md_in_html = {}
 
-# No search bar: the dashboard has its own search box.
+# Turn off site search; the dashboard has its own.
 [project.plugins.search]
 enabled = false

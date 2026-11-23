@@ -1,10 +1,9 @@
-# Dandisets shown on the BICAN dashboard.
+# Dandisets shown on the dashboard.
 #
-# To add one: copy any line below, change the ID, and open a pull request.
-# Keep the quotes so the leading zeros stay. Everything else on the card
-# (title, species, data type, counts, size, date) comes from DANDI automatically.
+# To add one, add a line with its ID (keep the quotes) and open a pull request.
+# The rest of the card comes from DANDI.
 #
-# Optional: add a short line to show on the card, for example
+# Optional: a short note to show on the card, for example
 #   - id: "000636"
 #     note: "Data for Lee et al. 2023, Science"
 

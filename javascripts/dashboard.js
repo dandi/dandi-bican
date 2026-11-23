@@ -1,14 +1,11 @@
-/*
- * BICAN dashboard: reads data/dandisets.json (made by scripts/fetch_dandisets.py)
- * and shows summary numbers plus a searchable, filterable grid of dandisets.
- */
+// Dashboard page: loads data/dandisets.json and shows the totals, filters and cards.
 (() => {
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
   const fmtInt = (n) => n.toLocaleString("en-US");
   const fmtDate = (iso) =>
     new Date(iso).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" });
 
-  // 1234567 -> ["1.2", "MB"]
+  // Bytes to a short size, e.g. 1234567 -> ["1.2", "MB"]
   function fmtBytes(bytes) {
     const units = ["B", "KB", "MB", "GB", "TB", "PB"];
     let i = 0;
@@ -28,7 +25,7 @@
 
   const speciesOf = (d) => d.species.map((s) => s.name);
 
-  // Menu options for a filter: "All …" first, then each value with its count, most common first.
+  // Options for a filter menu: "All", then each value with its count.
   function countedOptions(values, allLabel) {
     const counts = {};
     values.forEach((v) => (counts[v] = (counts[v] || 0) + 1));
@@ -96,7 +93,7 @@
         .toLowerCase();
     });
 
-    // Filters start from the address bar, so a filtered view can be shared as a link.
+    // Read filters from the URL, so a filtered view can be shared.
     const params = new URLSearchParams(location.search);
     const state = { q: "", species: "", type: "", sort: "newest" };
     Object.keys(state).forEach((key) => (state[key] = params.get(key) || state[key]));
@@ -149,7 +146,7 @@
       history.replaceState(history.state, "", `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`);
     }
 
-    // Typing in the search box and changing a menu both fire "input".
+    // Update when the search box or a menu changes.
     root.addEventListener("input", (e) => {
       const key = e.target.dataset.key;
       if (!key) return;
@@ -180,7 +177,7 @@
     }
   }
 
-  // The theme's document$ fires on first load and after each in-site page change.
+  // Start when the page loads.
   if (window.document$) document$.subscribe(init);
   else init();
 })();

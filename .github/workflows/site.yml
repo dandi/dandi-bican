@@ -1,6 +1,6 @@
-# Builds the site and publishes it to GitHub Pages.
-# - Pull requests: checks that every dandiset in dandisets.yaml exists and the site builds.
-# - Pushes to main, and once a day: rebuilds with fresh details from DANDI and publishes.
+# Build the site and publish it to GitHub Pages.
+# Pull requests: build only, to check the dandiset list.
+# Main branch and daily: build and publish.
 name: Site
 
 on:

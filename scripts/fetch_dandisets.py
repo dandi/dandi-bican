@@ -1,12 +1,11 @@
-"""Build the dashboard data from dandisets.yaml.
+"""Make the dashboard data.
 
-Reads the dandiset IDs listed in dandisets.yaml, looks each one up on the
-DANDI Archive, and writes data/dandisets.json for the dashboard page.
+Reads the IDs in dandisets.yaml, gets each dandiset's details from DANDI,
+and writes them to data/dandisets.json.
 
     python scripts/fetch_dandisets.py
 
-Exits with an error if an entry is malformed, listed twice, or not found
-on DANDI, so a typo in a pull request fails the check instead of the site.
+Stops with an error if an ID is invalid, repeated, or not on DANDI.
 """
 
 import json
@@ -25,7 +24,7 @@ LIST_FILE = ROOT / "dandisets.yaml"
 OUT_FILE = ROOT / "data" / "dandisets.json"
 API = "https://api.dandiarchive.org/api"
 
-# Common names for species, keyed by NCBI taxonomy ID.
+# Common species names, by NCBI taxonomy ID.
 SPECIES = {
     "9606": "Human",
     "10090": "Mouse",
@@ -40,7 +39,7 @@ SPECIES = {
     "10141": "Guinea pig",
 }
 
-# Short labels for DANDI's "approach" terms.
+# Short names for DANDI's data types.
 APPROACHES = {
     "electrophysiological approach": "Electrophysiology",
     "microscopy approach; cell population imaging": "Imaging",
@@ -50,36 +49,36 @@ APPROACHES = {
     "spatial transcriptomics approach": "Spatial transcriptomics",
 }
 
-# For drafts that DANDI hasn't summarized yet: guess species and data type from keywords.
+# Used when DANDI has no species or data type yet: match these words in the keywords.
 KEYWORD_SPECIES = {"mouse": "Mouse", "human": "Human", "rat": "Rat", "macaque": "Macaque", "marmoset": "Marmoset"}
 KEYWORD_APPROACHES = {"calcium imaging": "Imaging", "two-photon": "Imaging", "2-photon": "Imaging",
                       "patch-seq": "Electrophysiology", "neuropixels": "Electrophysiology"}
 
 
 def get_json(url):
-    """GET a DANDI API URL, retrying network and server errors."""
+    """Get JSON from the DANDI API, retrying network and server errors."""
     for attempt in range(4):
         try:
             with urllib.request.urlopen(url, timeout=60) as resp:
                 return json.load(resp)
         except urllib.error.URLError as err:
-            # Retrying won't fix a client error such as 404 (HTTPError has a code; URLError doesn't).
+            # Retry only network and server (5xx) errors.
             if attempt == 3 or getattr(err, "code", 500) < 500:
                 raise
             time.sleep(2 ** attempt)
 
 
 def read_list():
-    """Read and check dandisets.yaml. Returns its entries, each with a six-digit 'id'."""
+    """Read dandisets.yaml and check the IDs."""
     raw = yaml.safe_load(LIST_FILE.read_text()) or []
-    if isinstance(raw, dict):  # also accept a top-level "dandisets:" key
+    if isinstance(raw, dict):  # also allow a "dandisets:" key
         raw = raw.get("dandisets") or []
     entries, errors, seen = [], [], set()
     for n, item in enumerate(raw, 1):
         entry = dict(item) if isinstance(item, dict) else {"id": item}
         did = str(entry.get("id", "")).strip()
         if did.isdigit():
-            did = did.zfill(6)  # YAML reads an unquoted ID as a number, dropping leading zeros
+            did = did.zfill(6)  # put back zeros lost when an ID isn't quoted
         if not re.fullmatch(r"\d{6}", did):
             errors.append(f"entry {n}: '{entry.get('id')}' is not a six-digit dandiset ID")
         elif did in seen:
@@ -93,7 +92,7 @@ def read_list():
 
 
 def unique(items):
-    """Drop empty and repeated items, keeping the first of each."""
+    """Remove blanks and repeats, keeping the order."""
     return [x for x in dict.fromkeys(items) if x]
 
 
