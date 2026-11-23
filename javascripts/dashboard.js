@@ -67,6 +67,7 @@
       ...d.approaches.map((a) => `<span class="bd-chip">${esc(a)}</span>`),
     ].join("");
     const who = [d.contacts.slice(0, 2).join(", "), d.organizations[0]].filter(Boolean).map(esc).join(" · ");
+    const count = (n, word) => `<strong>${fmtInt(n)}</strong> ${word}${n === 1 ? "" : "s"}`;
 
     return `
       <article class="bd-card">
@@ -74,16 +75,15 @@
           <span><span class="bd-id">DANDI:${esc(d.id)}</span> · <span title="${d.published ? "Published" : "Created"} on DANDI">${fmtDate(d.published || d.created)}</span></span>
           ${status}
         </div>
-        <h3 class="bd-card__title"><a href="${esc(d.url)}">${esc(d.title)}</a></h3>
+        <h3 class="bd-card__title"><a href="${esc(d.url)}">${esc(d.title).replace(/_/g, "_<wbr>")}</a></h3>
         ${who ? `<p class="bd-card__byline" title="${who}">${who}</p>` : ""}
         ${d.note ? `<p class="bd-card__note">${esc(d.note)}</p>` : ""}
         ${chips ? `<div class="bd-chips">${chips}</div>` : ""}
-        <dl class="bd-facts">
-          <div><dt>Subjects</dt><dd>${fmtInt(d.subjects)}</dd></div>
-          <div><dt>Files</dt><dd>${fmtInt(d.files)}</dd></div>
-          <div><dt>Size</dt><dd>${size} ${unit}</dd></div>
-        </dl>
-        <div class="bd-links"><a class="bd-btn" href="${esc(d.url)}">View on DANDI</a></div>
+        <div class="bd-card__footer">
+          <p class="bd-card__stats">${count(d.subjects, "subject")} · ${count(d.files, "file")} · <strong>${size} ${unit}</strong></p>
+          <a class="bd-btn" href="${esc(d.url)}">View on DANDI
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
       </article>`;
   }
 
