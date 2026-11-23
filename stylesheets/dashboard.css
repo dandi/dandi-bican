@@ -199,8 +199,11 @@
   padding: 0.1rem 0.5rem;
   font-size: 0.62rem;
   font-weight: 600;
+  white-space: nowrap;
   border-radius: 1rem;
 }
+
+.bd-status__date { font-weight: 400; }
 
 .bd-status--published {
   color: var(--md-typeset-a-color);

@@ -58,10 +58,11 @@
 
   function card(d) {
     const [size, unit] = fmtBytes(d.bytes);
+    // The status label carries the date that status began: published, or created for drafts.
     const status =
       d.status === "published"
-        ? `<span class="bd-status bd-status--published" title="Version ${esc(d.version)}">Published</span>`
-        : `<span class="bd-status bd-status--draft" title="Not yet published on DANDI">Draft</span>`;
+        ? `<span class="bd-status bd-status--published" title="Version ${esc(d.version)}">Published <span class="bd-status__date">${fmtDate(d.published)}</span></span>`
+        : `<span class="bd-status bd-status--draft" title="Not yet published on DANDI">Draft · <span class="bd-status__date">created ${fmtDate(d.created)}</span></span>`;
     const chips = [
       ...d.species.map((s) => `<span class="bd-chip bd-chip--species"${s.scientific ? ` title="${esc(s.scientific)}"` : ""}>${esc(s.name)}</span>`),
       ...d.approaches.map((a) => `<span class="bd-chip">${esc(a)}</span>`),
@@ -71,7 +72,7 @@
     return `
       <article class="bd-card">
         <div class="bd-card__top">
-          <span><span class="bd-id">DANDI:${esc(d.id)}</span> · <span title="${d.published ? "Published" : "Created"} on DANDI">${fmtDate(d.published || d.created)}</span></span>
+          <span class="bd-id">DANDI:${esc(d.id)}</span>
           ${status}
         </div>
         <h3 class="bd-card__title"><a href="${esc(d.url)}">${esc(d.title).replace(/_/g, "_<wbr>")}</a></h3>
