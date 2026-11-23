@@ -14,7 +14,7 @@ hide:
   <a href="https://dandiarchive.org/" title="DANDI Archive"><img class="bd-logo bd-logo--dandi" src="images/dandi-logo.svg" alt="DANDI Archive"></a>
 </div>
 
-Data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https://brain-bican.org/), shared on the [DANDI Archive](https://dandiarchive.org/).<br>Missing one? [Add it to the list](https://github.com/kabilar/dandi-bican/edit/main/dandisets.yaml).
+Data from the [BRAIN Initiative Cell Atlas Network (BICAN)](https://brain-bican.org/), shared on the [DANDI Archive](https://dandiarchive.org/).
 
 </div>
 
