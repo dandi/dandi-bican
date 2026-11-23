@@ -151,7 +151,7 @@ def build_record(entry):
         "contacts": contacts[:3],
         "organizations": orgs[:2],
         "keywords": keywords,
-        "created": (info.get("created") or meta.get("dateCreated") or "")[:10],
+        "updated": info["draft_version"]["modified"][:10],  # when the draft last changed
         "published": (meta.get("datePublished") or "")[:10] or None,
     }
     if entry.get("note"):

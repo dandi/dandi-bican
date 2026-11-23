@@ -20,7 +20,7 @@
   }
 
   const SORTS = {
-    newest: { label: "Newest", fn: (a, b) => (b.published || b.created).localeCompare(a.published || a.created) },
+    newest: { label: "Newest", fn: (a, b) => (b.published || b.updated).localeCompare(a.published || a.updated) },
     largest: { label: "Largest", fn: (a, b) => b.bytes - a.bytes },
     subjects: { label: "Most subjects", fn: (a, b) => b.subjects - a.subjects },
     id: { label: "Dandiset ID", fn: (a, b) => a.id.localeCompare(b.id) },
@@ -82,7 +82,7 @@
           <div class="bd-card__actions">
             <a class="bd-btn" href="${esc(d.url)}">View on DANDI
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            <span class="bd-card__date" title="${d.published ? "Published" : "Created"} on DANDI">${fmtDate(d.published || d.created)}</span>
+            <span class="bd-card__date" title="${d.published ? "Published" : "Last updated"} on DANDI">${fmtDate(d.published || d.updated)}</span>
           </div>
         </div>
       </article>`;
