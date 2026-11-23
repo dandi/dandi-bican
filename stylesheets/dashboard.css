@@ -1,0 +1,344 @@
+/* Dashboard styles. Theme colors keep light and dark mode working. */
+
+:root {
+  --bd-tile: #e8eaee; /* logo background in dark mode */
+}
+
+/* Navigation bar logo, made taller so its text is readable */
+.md-header__button.md-logo img {
+  height: 1.9rem;
+}
+
+[data-md-color-scheme="slate"] .md-logo img {
+  padding: 0.15rem;
+  background: var(--bd-tile);
+  border-radius: 0.4rem;
+}
+
+/* Centered logos and intro */
+.md-typeset .bd-hero {
+  margin: 0 0 2.25rem;
+  text-align: center;
+}
+
+.md-typeset .bd-hero p {
+  max-width: 36rem;
+  margin: 1.1rem auto 0;
+  color: var(--md-default-fg-color--light);
+  text-wrap: balance;
+}
+
+.bd-logos {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.75rem;
+  padding: 0.6rem 1.5rem;
+}
+
+.bd-logos a {
+  display: flex;
+  align-items: center;
+}
+
+.md-typeset .bd-logos img {
+  width: auto;
+  max-width: none;
+}
+
+.md-typeset .bd-logo--dandi { height: 4rem; }
+.md-typeset .bd-logo--bican { height: 2.5rem; }
+
+.bd-logos__divider {
+  width: 1px;
+  height: 2.75rem;
+  background: var(--md-default-fg-color--lightest);
+}
+
+/* Dark mode: put each logo on a light tile and hide the divider */
+[data-md-color-scheme="slate"] .bd-logos {
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+[data-md-color-scheme="slate"] .bd-logos a {
+  padding: 0.7rem 1.25rem;
+  background: var(--bd-tile);
+  border-radius: 0.75rem;
+}
+
+[data-md-color-scheme="slate"] .bd-logos__divider {
+  display: none;
+}
+
+/* Borders for the totals and cards */
+.bd-stat,
+.md-typeset .bd-card {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.75rem;
+}
+
+/* Totals */
+.bd-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.bd-stat { padding: 0.9rem 1rem; }
+
+.bd-stat__label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+}
+
+.bd-stat__value {
+  margin-top: 0.2rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.bd-stat__unit {
+  margin-left: 0.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Search, filters and sort */
+.bd-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.bd-controls label { flex: 1 1 8rem; min-width: 0; }
+.bd-controls .bd-search { flex: 2.5 1 14rem; }
+
+.bd-controls input,
+.bd-controls select {
+  width: 100%;
+  height: 2.2rem;
+  padding: 0 0.7rem;
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--md-default-fg-color);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 0.5rem;
+}
+
+.bd-controls select { padding-right: 1.8rem; cursor: pointer; }
+
+.bd-controls :focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 1px;
+}
+
+.bd-summary {
+  min-height: 1.6rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  color: var(--md-default-fg-color--light);
+}
+
+.bd-clear {
+  margin-left: 0.5rem;
+  padding: 0;
+  font: inherit;
+  color: var(--md-typeset-a-color);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.bd-clear:hover { text-decoration: underline; }
+
+/* Cards */
+.bd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: 1rem;
+}
+
+.md-typeset .bd-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-width: 0;
+  padding: 1rem 1.1rem;
+  font-size: 0.72rem;
+  color: var(--md-default-fg-color--light);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.md-typeset .bd-card:hover {
+  border-color: var(--md-primary-fg-color--light);
+  box-shadow: var(--md-shadow-z1);
+}
+
+.md-typeset .bd-card p { margin: 0; line-height: 1.5; }
+
+/* Card top: ID and status */
+.bd-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.68rem;
+}
+
+.bd-id { font-family: var(--md-code-font-family, monospace); }
+
+.bd-status {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  white-space: nowrap;
+  border-radius: 1rem;
+}
+
+.bd-status--published {
+  color: var(--md-typeset-a-color);
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.bd-status--draft { border: 1px dashed var(--md-default-fg-color--lighter); }
+
+.md-typeset .bd-card__title {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+
+.md-typeset .bd-card__title a { color: var(--md-default-fg-color); text-decoration: none; }
+.md-typeset .bd-card__title a:hover { color: var(--md-typeset-a-color); text-decoration: underline; }
+
+.bd-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+
+.bd-chip {
+  padding: 0.1rem 0.5rem;
+  font-size: 0.64rem;
+  color: var(--md-default-fg-color);
+  background: var(--md-code-bg-color);
+  border-radius: 1rem;
+}
+
+/* Card footer, kept at the bottom so footers line up across a row */
+.bd-card__footer {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.bd-card__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.bd-card__date { font-size: 0.66rem; white-space: nowrap; }
+
+.md-typeset .bd-card__stats { font-size: 0.68rem; }
+.md-typeset .bd-card__stats strong { font-weight: 600; color: var(--md-default-fg-color); }
+
+.md-typeset .bd-btn,
+.md-typeset .bd-btn:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.7rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--md-primary-bg-color);
+  text-decoration: none;
+  background: var(--md-primary-fg-color);
+  border-radius: 0.5rem;
+}
+
+.md-typeset .bd-btn:hover { background: var(--md-primary-fg-color--dark); }
+
+.bd-btn svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.15s;
+}
+
+.bd-btn:hover svg { transform: translateX(2px); }
+
+/* Loading and "no results" messages */
+.md-typeset .bd-empty,
+.md-typeset .bd-loading {
+  grid-column: 1 / -1;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--md-default-fg-color--light);
+  border: 1px dashed var(--md-default-fg-color--lightest);
+  border-radius: 0.75rem;
+}
+
+/* No repository widget in the navigation bar, so drop its empty slot and keep the theme toggle at the right */
+.md-header__source { display: none; }
+
+/* Footer: same background as the page, with a GitHub link */
+.md-footer-meta {
+  background: var(--md-default-bg-color);
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-footer-meta.md-typeset .md-copyright a:not(:focus, :hover) {
+  color: var(--md-default-fg-color--light);
+  text-decoration: none;
+}
+
+/* Update date on the left and GitHub on the right, on one row */
+.md-copyright { width: auto; margin-left: auto; }
+
+.bd-updated {
+  margin: auto 0.6rem;
+  padding: 0.4rem 0;
+  font-size: 0.64rem;
+  color: var(--md-default-fg-color--light);
+}
+
+/* Arrow after the GitHub link, like gallery.lincbrain.org */
+.bd-external {
+  width: 0.55rem;
+  height: 0.55rem;
+  margin-left: 0.25rem;
+  vertical-align: -0.03rem;
+  fill: currentColor;
+}
+
+/* Phones */
+@media (max-width: 44.9375em) {
+  .md-typeset .bd-logo--dandi { height: 3rem; }
+  .md-typeset .bd-logo--bican { height: 1.9rem; }
+  .bd-logos { gap: 1.25rem; padding: 0.5rem 1rem; }
+  .bd-logos__divider { height: 2rem; }
+
+  .bd-stats { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .bd-stat { padding: 0.55rem 0.65rem; }
+  .bd-stat__label { font-size: 0.55rem; }
+  .bd-stat__value { font-size: 1.05rem; }
+  .bd-stat__unit { font-size: 0.7rem; }
+
+  .bd-controls label { flex-basis: calc(50% - 0.25rem); }
+  .bd-controls .bd-search { flex-basis: 100%; }
+}
