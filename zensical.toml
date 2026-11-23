@@ -2,8 +2,7 @@
 site_name = "BICAN Dandisets"
 site_description = "Data from the BRAIN Initiative Cell Atlas Network (BICAN) on the DANDI Archive."
 site_url = "https://kabilar.github.io/dandi-bican/"
-repo_url = "https://github.com/kabilar/dandi-bican"
-repo_name = "kabilar/dandi-bican"
+copyright = '<a href="https://github.com/kabilar/dandi-bican">GitHub</a>'
 extra_css = ["stylesheets/dashboard.css"]
 extra_javascript = ["javascripts/dashboard.js"]
 
@@ -57,3 +56,6 @@ md_in_html = {}
 
 [project.plugins.search]
 enabled = false
+
+[project.extra]
+generator = false
