@@ -55,9 +55,6 @@ KEYWORD_SPECIES = {"mouse": "Mouse", "human": "Human", "rat": "Rat", "macaque": 
 KEYWORD_APPROACHES = {"calcium imaging": "Imaging", "two-photon": "Imaging", "2-photon": "Imaging",
                       "patch-seq": "Electrophysiology", "neuropixels": "Electrophysiology"}
 
-PAPER_RELATIONS = {"dcite:IsDescribedBy", "dcite:IsPublishedIn", "dcite:IsSupplementTo"}
-PAPER_TYPES = {"dcite:JournalArticle", "dcite:Preprint", "dcite:DataPaper"}
-
 
 def get_json(url):
     """GET a DANDI API URL, retrying network and server errors."""
@@ -115,18 +112,6 @@ def species_list(summary):
     return list(found.values())
 
 
-def paper_links(meta):
-    links = []
-    for res in meta.get("relatedResource") or []:
-        url, ident = res.get("url") or "", res.get("identifier") or ""
-        if not url and ident.lower().startswith("doi:"):
-            url = "https://doi.org/" + ident[4:]
-        if url.startswith(("http://", "https://")) and res.get("relation") in PAPER_RELATIONS \
-                and res.get("resourceType") in PAPER_TYPES:
-            links.append({"label": "Preprint" if res["resourceType"] == "dcite:Preprint" else "Paper", "url": url})
-    return links
-
-
 def build_record(entry):
     did = entry["id"]
     try:
@@ -149,20 +134,14 @@ def build_record(entry):
             contacts.append(f"{first.strip()} {last.strip()}".strip())
         elif c.get("schemaKey") == "Organization" and "dcite:Funder" not in roles and c.get("name"):
             orgs.append(c["name"])
-    published = version != "draft"
-    doi = meta.get("doi") if published else None
     approaches = unique(APPROACHES.get(name) or name.removesuffix(" approach").capitalize()
                         for name in ((ap.get("name") or "").strip() for ap in summary.get("approach") or []))
     record = {
         "id": did,
         "title": meta.get("name") or did,
         "description": " ".join((meta.get("description") or "").split()),
-        "status": "published" if published else "draft",
         "version": version,
         "url": f"https://dandiarchive.org/dandiset/{did}",
-        "doi": doi,
-        "doi_url": f"https://doi.org/{doi}" if doi else None,
-        "papers": paper_links(meta),
         "species": species_list(summary)
         or [{"name": name, "scientific": ""} for name in from_keywords(keywords, KEYWORD_SPECIES)],
         "approaches": approaches or from_keywords(keywords, KEYWORD_APPROACHES),

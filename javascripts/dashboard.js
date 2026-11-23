@@ -60,7 +60,7 @@
     const [size, unit] = fmtBytes(d.bytes);
     // The status label carries the date that status began: published, or created for drafts.
     const status =
-      d.status === "published"
+      d.published
         ? `<span class="bd-status bd-status--published" title="Version ${esc(d.version)}">Published <span class="bd-status__date">${fmtDate(d.published)}</span></span>`
         : `<span class="bd-status bd-status--draft" title="Not yet published on DANDI">Draft · <span class="bd-status__date">created ${fmtDate(d.created)}</span></span>`;
     const chips = [
