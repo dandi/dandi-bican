@@ -70,7 +70,7 @@ def get_json(url):
 
 def read_list():
     """Read dandisets.yaml and check the IDs."""
-    raw = yaml.safe_load(LIST_FILE.read_text()) or []
+    raw = yaml.load(LIST_FILE.read_text(), Loader=yaml.BaseLoader) or []  # read IDs as text, keeping leading zeros
     if isinstance(raw, dict):  # also allow a "dandisets:" key
         raw = raw.get("dandisets") or []
     ids, errors = [], []
@@ -78,7 +78,7 @@ def read_list():
         value = item.get("id") if isinstance(item, dict) else item  # also allow "id: ..." entries
         did = str(value).strip()
         if did.isdigit():
-            did = did.zfill(6)  # put back zeros lost when an ID isn't quoted
+            did = did.zfill(6)  # allow short IDs, e.g. 636 -> 000636
         if not re.fullmatch(r"\d{6}", did):
             errors.append(f"entry {n}: '{value}' is not a six-digit dandiset ID")
         elif did in ids:
