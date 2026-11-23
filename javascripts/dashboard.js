@@ -64,7 +64,7 @@
         ? `<span class="bd-status bd-status--published" title="Version ${esc(d.version)}">Published <span class="bd-status__date">${fmtDate(d.published)}</span></span>`
         : `<span class="bd-status bd-status--draft" title="Not yet published on DANDI">Draft · <span class="bd-status__date">created ${fmtDate(d.created)}</span></span>`;
     const chips = [
-      ...d.species.map((s) => `<span class="bd-chip bd-chip--species"${s.scientific ? ` title="${esc(s.scientific)}"` : ""}>${esc(s.name)}</span>`),
+      ...d.species.map((s) => `<span class="bd-chip"${s.scientific ? ` title="${esc(s.scientific)}"` : ""}>${esc(s.name)}</span>`),
       ...d.approaches.map((a) => `<span class="bd-chip">${esc(a)}</span>`),
     ].join("");
     const count = (n, word) => `<strong>${fmtInt(n)}</strong> ${word}${n === 1 ? "" : "s"}`;
