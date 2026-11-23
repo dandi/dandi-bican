@@ -82,7 +82,6 @@
         <h3 class="bd-card__title"><a href="${esc(d.url)}">${esc(d.title)}</a></h3>
         ${who ? `<p class="bd-card__byline" title="${who}">${who}</p>` : ""}
         ${d.note ? `<p class="bd-card__note">${esc(d.note)}</p>` : ""}
-        ${d.description ? `<p class="bd-card__desc" title="${esc(d.description)}">${esc(d.description)}</p>` : ""}
         ${chips ? `<div class="bd-chips">${chips}</div>` : ""}
         <dl class="bd-facts">
           <div><dt>Subjects</dt><dd>${fmtInt(d.subjects)}</dd></div>
